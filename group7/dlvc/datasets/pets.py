@@ -91,7 +91,7 @@ class PetsDataset(ClassificationDataset):
         if result:
             pass
         else:
-            raise Exception('some files are missing from directory ' + fdir)
+            raise Exception('some files are missing from directory ')
 
     def __len__(self) -> int:
         '''
