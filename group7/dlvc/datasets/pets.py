@@ -84,7 +84,7 @@ class PetsDataset(ClassificationDataset):
                     data = np.concatenate((data, raw_images[:, :, :, ::-1]), axis=0)
                 else:
                     data = raw_images[:, :, :, ::-1]
-        return data, labels
+        return data, np.asarray(labels)
 
     def missing_files(self, filenames, expected_files):
         result = all(elem in filenames for elem in expected_files)
