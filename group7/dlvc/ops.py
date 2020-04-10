@@ -25,7 +25,11 @@ def type_cast(dtype: np.dtype) -> Op:
 
     # TODO implement (see above for guidance).
 
-    pass
+    def op(x: np.ndarray) -> np.ndarray:
+        x = x.astype(dtype)
+        return x
+
+    return op
 
 def vectorize() -> Op:
     '''
@@ -34,7 +38,11 @@ def vectorize() -> Op:
 
     # TODO implement (see above for guidance).
 
-    pass
+    def op(x: np.ndarray) -> np.ndarray:
+        x = x.ravel()
+        return x
+
+    return op
 
 def add(val: float) -> Op:
     '''
@@ -43,7 +51,11 @@ def add(val: float) -> Op:
 
     # TODO implement (see above for guidance).
 
-    pass
+    def op(x: np.ndarray) -> np.ndarray:
+        x = x + val
+        return x
+
+    return op
 
 def mul(val: float) -> Op:
     '''
@@ -52,4 +64,8 @@ def mul(val: float) -> Op:
 
     # TODO implement (see above for guidance).
 
-    pass
+    def op(x: np.ndarray) -> np.ndarray:
+        x = x * val
+        return x
+
+    return op
