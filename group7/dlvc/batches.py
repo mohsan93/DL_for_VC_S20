@@ -40,7 +40,43 @@ class BatchGenerator:
 
         # TODO implement
 
-        pass
+        if not isinstance(dataset, Dataset):
+            raise TypeError('The argument \'dataset\' ist not instance of \'Dataset\'.')
+        if not isinstance(num, int):
+            raise TypeError('The argument \'num\' ist not instance of \'int\'.')
+        if not isinstance(shuffle, bool):
+            raise TypeError('The argument \'shuffle\' ist not instance of \'bool\'.')
+        if not callable(op) and op is not None:
+            raise TypeError('The argument \'op\' ist not \'callable\' nor \'None\'.')
+        
+        if num < 1 or num > len(dataset):
+            raise ValueError('The argument \'num\' has to be between 1 and len(dataset)')
+        
+        n = len(dataset)
+        batch_size = n/num
+        if batch_size != int(batch_size):
+            batch_size = int(batch_size) + 1
+
+        indices = np.arange(n)
+        data = dataset.data
+        labels = dataset.labels
+        if shuffle:
+            indices = np.random.permutation(n)
+            data = data[indices]
+            labels = labels[indices]
+        if op is not None:
+            data = op(data)
+            
+        self.batches = list()
+        i = 0
+        while i<n:
+            b = Batch()
+            b.data = data[i:i+batch_size]
+            b.label = labels[i:i+batch_size]
+            b.idx = indices[i:i+batch_size]
+            self.batches.append(b)
+            i += batch_size
+        
 
     def __len__(self) -> int:
         '''
@@ -49,7 +85,7 @@ class BatchGenerator:
 
         # TODO implement
 
-        pass
+        return len(self.batches)
 
     def __iter__(self) -> typing.Iterable[Batch]:
         '''
@@ -59,4 +95,7 @@ class BatchGenerator:
         # TODO implement
         # The "yield" keyword makes this easier
 
-        pass
+        i = 0
+        while True:
+            yield self.batches[i]
+            i += 1
