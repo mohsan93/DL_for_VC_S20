@@ -74,7 +74,8 @@ class Accuracy(PerformanceMeasure):
 
         # TODO implement
 
-        pass
+        self.total = 0
+        self.tptn = 0
 
     def update(self, prediction: np.ndarray, target: np.ndarray):
         '''
@@ -85,8 +86,22 @@ class Accuracy(PerformanceMeasure):
         '''
 
         # TODO implement
+        s = np.ma.size(prediction,0)
+        s2 = np.ma.size(target,0)
+        c = np.ma.size(prediction,1)
 
-        pass
+        if s != s2:
+            raise ValueError('Number of rows of \'prediction\' has to match number of entries of \'target\'.')
+        if np.any(target<0) or np.any(target>(c-1)):
+            raise ValueError('Some labels of \'target\' are either <0 or >(#classes)-1')
+
+        
+        pred = np.argmax(prediction,1)
+        tptn = sum(target == pred)
+
+        self.total += s
+        self.tptn += tptn
+        
 
     def __str__(self):
         '''
@@ -96,7 +111,9 @@ class Accuracy(PerformanceMeasure):
         # TODO implement
         # return something like "accuracy: 0.395"
 
-        pass
+        acc = self.accuracy()
+        str_rep = 'accuracy: {}'.format(acc)
+        return str_rep
 
     def __lt__(self, other) -> bool:
         '''
@@ -106,7 +123,11 @@ class Accuracy(PerformanceMeasure):
 
         # TODO implement
 
-        pass
+        if not isinstance(self, Accuracy) or not isinstance(other, Accuracy):
+            raise TypeError('One of the arguments is not instance of the class\'Accuracy\'.')
+
+        lt = self.accuracy() < other.accuracy()
+        return lt
 
     def __gt__(self, other) -> bool:
         '''
@@ -116,7 +137,11 @@ class Accuracy(PerformanceMeasure):
 
         # TODO implement
 
-        pass
+        if not isinstance(self, Accuracy) or not isinstance(other, Accuracy):
+            raise TypeError('One of the arguments is not instance of the class\'Accuracy\'.')
+
+        gt = self.accuracy() > other.accuracy()
+        return gt
 
     def accuracy(self) -> float:
         '''
@@ -127,4 +152,8 @@ class Accuracy(PerformanceMeasure):
         # TODO implement
         # on this basis implementing the other methods is easy (one line)
 
-        pass
+        if self.total == 0:
+            return 0
+        acc = self.tptn/self.total
+        return acc
+            
