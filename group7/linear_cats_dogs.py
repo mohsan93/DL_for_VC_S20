@@ -95,3 +95,4 @@ for i in np.arange(max_iter):
     if clfAccuracy.accuracy.accuracy() >= 0.9:
         best_model = clfAccuracy
         break
+print(best_model.accuracy)

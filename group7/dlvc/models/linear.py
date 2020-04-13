@@ -43,7 +43,6 @@ class LinearClassifier(Model):
             self.nesterov = False
         
         self.weights = torch.randn(self.num_classes, self.input_dim, requires_grad=True) #dtype=dtype)
-        print(self.weights.size())
         self.loss = nn.CrossEntropyLoss()
         self.v = None
         

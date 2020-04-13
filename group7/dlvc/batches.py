@@ -3,6 +3,7 @@ from .dataset import Dataset
 from .ops import Op
 
 import typing
+import numpy as np 
 
 class Batch:
     '''
@@ -57,6 +58,7 @@ class BatchGenerator:
         if batch_size != int(batch_size):
             batch_size = int(batch_size) + 1
 
+        batch_size = int(batch_size)
         indices = np.arange(n)
         data = dataset.data
         labels = dataset.labels
