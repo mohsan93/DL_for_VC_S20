@@ -38,9 +38,18 @@ def vectorize() -> Op:
 
     # TODO implement (see above for guidance).
 
-    def op(x: np.ndarray) -> np.ndarray:
+    '''def op(x: np.ndarray) -> np.ndarray:
         x = x.ravel()
-        return x
+        return x'''
+
+    def op(sample: np.ndarray) -> np.ndarray:
+        out_array = np.array([])
+        for i in np.arange(len(sample)):
+            if out_array.size == 0:
+                out_array = sample[i].ravel()
+            else:
+                out_array = np.vstack((out_array, sample[i].ravel()))
+        return out_array
 
     return op
 
