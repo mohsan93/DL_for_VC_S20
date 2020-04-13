@@ -28,9 +28,9 @@ op = chain([
 ])
 
 
-bg_training = BatchGenerator(dataset=trainingDataset, num=500, shuffle=True, op=op)
-bg_validation = BatchGenerator(dataset=validationDataset, num=500, shuffle=True, op=op)
-bg_test = BatchGenerator(dataset=testDataset, num=500, shuffle=True, op=op)
+bg_training = BatchGenerator(dataset=trainingDataset, num=32, shuffle=True, op=op)
+bg_validation = BatchGenerator(dataset=validationDataset, num=32, shuffle=True, op=op)
+bg_test = BatchGenerator(dataset=testDataset, num=32, shuffle=True, op=op)
 
 
 def random_search(lr_max=1, lr_min=0.5, momentum_max=1, momentum_min=0):
@@ -88,10 +88,11 @@ all_models = list()
 best_model = baseline
 all_models.append(baseline)
 acc_threshold = 0.9
-max_iter = 9
+max_iter = 20
 
 for i in np.arange(max_iter):
     lr, m = random_search()
+    print(f"training model {i+1} of {max_iter}...")
     clfAccuracy = train_model(lr = lr, momentum = m)
     all_models.append(clfAccuracy)
     if clfAccuracy.accuracy > best_model.accuracy:
@@ -99,7 +100,10 @@ for i in np.arange(max_iter):
     if clfAccuracy.accuracy.accuracy() >= 0.9:
         best_model = clfAccuracy
         break
-print(best_model.accuracy)
+print(f"accuracy of the best model: {best_model.accuracy}")
+print("other accuracies:\n")
+for model in all_models:
+    print(f"model with learning rate {model.model.lr} and momentum {model.model.momentum}: {model.accuracy} \n")
 
 fig = plt.figure(figsize=(20,15))
 ax = plt.axes(projection="3d")
