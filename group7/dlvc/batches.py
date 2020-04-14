@@ -54,11 +54,7 @@ class BatchGenerator:
             raise ValueError('The argument \'num\' has to be between 1 and len(dataset)')
         
         n = len(dataset)
-        batch_size = n/num
-        if batch_size != int(batch_size):
-            batch_size = int(batch_size) + 1
 
-        batch_size = int(batch_size)
         indices = np.arange(n)
         data = dataset.data
         labels = dataset.labels
@@ -73,11 +69,11 @@ class BatchGenerator:
         i = 0
         while i<n:
             b = Batch()
-            b.data = data[i:i+batch_size]
-            b.label = labels[i:i+batch_size]
-            b.idx = indices[i:i+batch_size]
+            b.data = data[i:i+num]
+            b.label = labels[i:i+num]
+            b.idx = indices[i:i+num]
             self.batches.append(b)
-            i += batch_size
+            i += num
         
 
     def __len__(self) -> int:
