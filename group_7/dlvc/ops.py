@@ -78,3 +78,45 @@ def mul(val: float) -> Op:
         return x
 
     return op
+
+
+def hwc2chw() -> Op:
+    '''
+    Flip a 3D array with shape HWC to shape CHW.
+    '''
+
+    # TODO implement (see np.transpose)
+    
+    def op(x: np.ndarray) -> np.ndarray:
+        return x.transpose(2,0,1)
+    return op
+
+def chw2hwc() -> Op:
+    '''
+    Flip a 3D array with shape CHW to HWC.
+    '''
+
+    def op(x: np.ndarray) -> np.ndarray:
+        return x.transpose(1,2,0)
+
+def hflip() -> Op:
+    '''
+    Flip arrays with shape HWC horizontally with a probability of 0.5.
+    '''
+
+    # TODO implement (numpy.flip will be helpful)
+
+    pass
+
+def rcrop(sz: int, pad: int, pad_mode: str) -> Op:
+    '''
+    Extract a square random crop of size sz from arrays with shape HWC.
+    If pad is > 0, the array is first padded by pad pixels along the top, left, bottom, and right.
+    How padding is done is governed by pad_mode, which should work exactly as the 'mode' argument of numpy.pad.
+    Raises ValueError if sz exceeds the array width/height after padding.
+    '''
+
+    # TODO implement
+    # https://numpy.org/doc/1.18/reference/generated/numpy.pad.html will be helpful
+
+    pass

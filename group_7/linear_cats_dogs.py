@@ -15,10 +15,10 @@ TrainedModel = namedtuple('TrainedModel', ['model', 'accuracy'])
 
 # TODO implement steps 1-2
 
-
-trainingDataset = PetsDataset("D:\\fuck\\dlvc2020\\assignments\\cifar-10-batches-py", Subset.TRAINING)
-validationDataset = PetsDataset("D:\\fuck\\dlvc2020\\assignments\\cifar-10-batches-py", Subset.VALIDATION)
-testDataset = PetsDataset("D:\\fuck\\dlvc2020\\assignments\\cifar-10-batches-py", Subset.TEST)
+data_path = "" #something ending with "...\\cifar-10-batches.py"
+trainingDataset = PetsDataset(data_path, Subset.TRAINING)
+validationDataset = PetsDataset(data_path, Subset.VALIDATION)
+testDataset = PetsDataset(data_path, Subset.TEST)
 
 op = chain([
     vectorize(),
@@ -33,7 +33,7 @@ bg_validation = BatchGenerator(dataset=validationDataset, num=32, shuffle=True, 
 bg_test = BatchGenerator(dataset=testDataset, num=32, shuffle=True, op=op)
 
 
-def random_search(lr_max=1, lr_min=0.5, momentum_max=1, momentum_min=0):
+def random_search(lr_max=1, lr_min=0.9, momentum_max=1, momentum_min=0.9):
     random_lr = (lr_max - lr_min) * np.random.random_sample() + lr_min
     random_momentum = (momentum_max-momentum_min) * np.random.random_sample() + momentum_min
     return (random_lr, random_momentum)
